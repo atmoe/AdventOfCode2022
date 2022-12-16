@@ -20,9 +20,6 @@ for line in inputFile.readlines():
         pair = []
         count = 0
 
-for p in pairs:
-    print(p[0], "vs", p[1])
-
 
 def getList(lStr):
     l = None
@@ -56,13 +53,12 @@ def getList(lStr):
 
 lPairs = []
 for p in pairs:
-    print("========================")
     left  = getList(p[0])
     right = getList(p[1])
     lPairs.append([left, right])
 
 def compare(l, r):
-    print(f'compare {l} vs {r}')
+    #print(f'compare {l} vs {r}')
 
     if type(l) == int:
         if l == r: return 'continue'
@@ -112,22 +108,40 @@ print("------------------")
 idx = 1
 count = 0
 for p in lPairs:
-    print('--------------------------')
     order = compare(p[0], p[1])
     if order == 'in order':
         count += idx
         
-    print(f'Final = {order}')
-
     idx += 1
 
 print(count)
 
-quit()
 print("------------------")
 print("---- PART 2 ------")
 print("------------------")
 
+sortedList = []
+for p in lPairs:
+    sortedList.append(p[0])
+    sortedList.append(p[1])
+sortedList.append([[2]])
+sortedList.append([[6]])
 
+
+for i in range(len(sortedList)-1):
+    for j in range(len(sortedList) - i - 1):
+        if compare(sortedList[j], sortedList[j+1]) == 'out of order':
+            tmp = sortedList[j]
+            sortedList[j] = sortedList[j+1]
+            sortedList[j+1] = tmp
+
+idx = 1
+mult = 1
+for p in sortedList:
+    if p == [[2]] or p == [[6]]:
+        mult *= idx
+    idx+=1
+
+print(mult)
 
 
