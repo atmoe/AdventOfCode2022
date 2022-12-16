@@ -48,7 +48,8 @@ class Cave:
     # x and y are already in cave space
     # return = next value, -1,-1 is abyss
     def sandNextPos(self, x, y):
-        self.resizeX(x)
+        self.resizeX(x+1)
+        self.resizeX(x-1)
         (xIdx, yIdx) = c.getXY(x,y)
 
         if yIdx == self.cH:     return (-1,-1)
@@ -104,7 +105,6 @@ for row in c.cave:
 print(c.cW, 'x', c.cH)
 
 
-
 print("------------------")
 print("---- PART 1 ------")
 print("------------------")
@@ -115,7 +115,6 @@ while not inAbyss:
     sand = (500,0)
 
     while moved and not inAbyss:
-        print(sand)
         sandNxt = c.sandNextPos(sand[0], sand[1])
         
         if sandNxt == sand:
@@ -127,20 +126,50 @@ while not inAbyss:
             inAbyss = True
 
         sand = sandNxt
-    
-    print('-----------------------------------------------------------')
-    for row in c.cave:
-        print("".join(row))
 
     units += 1
 
+for row in c.cave:
+    print("".join(row))
 print(f'Units = {units-1}')
 
-quit()
 
 print("------------------")
 print("---- PART 2 ------")
 print("------------------")
+c.resizeY(c.cH)
+
+
+blocked=False
+units = units - 1
+while not blocked:
+    moved = True
+    sand = (500,0)
+
+    while moved and not blocked:
+        sandNxt = c.sandNextPos(sand[0], sand[1])
+        
+        if sandNxt == sand:
+            (nX, nY) = c.getXY(sandNxt[0], sandNxt[1])
+            c.cave[nY][nX] = 'o'
+            moved=False
+
+        if sandNxt[1] == (c.cH-1):
+            (nX, nY) = c.getXY(sandNxt[0], sandNxt[1])
+            c.cave[nY][nX] = 'o'
+            moved=False
+
+        if sandNxt == (500,0):
+            blocked = True
+
+        sand = sandNxt
+    
+
+    units += 1
+
+for row in c.cave:
+    print("".join(row))
+print(f'Units = {units}')
 
 
 
